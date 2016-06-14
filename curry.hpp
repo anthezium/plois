@@ -66,15 +66,7 @@ struct heap_obj
 
 //! \brief Normalizes the held heap object.
 //! Functions are head-normalized; constructors are fully normalized.
-void normalize(heap_ptr p)
-{
-  // #define DEREF(p, x) (p)->(x)
-  // #define ASSIGN_PTR(l, r) l = (r);
-  // auto obj = DEREF(p.h, obj);
-  // auto repl = obj->info->step(obj);
-  // ASSIGN_PTR(DEREF(p.h, obj), repl);
-  p.h->obj = p.h->obj->info->step(p.h->obj);
-}
+void normalize(heap_ptr p);
 
 template<typename T>
 T data(heap_obj const * obj)
