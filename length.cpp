@@ -20,7 +20,7 @@ info_table const info_cons{":", 2, &normalize_ctor<2>};
 info_table const info_int{"Int", 0, &normalize_ctor<0>};
 heap_obj const * make_int(int i)
 {
-  return new heap_obj{&info_int, i};
+  return new heap_obj{&info_int, (void*)i};
 }
 
 // Function: +
@@ -31,7 +31,7 @@ info_table const info_plus{"+", 2
       assert(2 == obj->info->arity);
       normalize(obj->edges[0]);
       normalize(obj->edges[1]);
-      return make_int(data<int>(obj->edges[0]) + data<int>(obj->edges[1]));
+      return make_int(data<int>(obj->edges[0].h->obj) + data<int>(obj->edges[1].h->obj));
     }
   };
 heap_obj const * make_plus(heap_ptr lhs, heap_ptr rhs)

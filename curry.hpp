@@ -68,11 +68,13 @@ struct heap_obj
 //! Functions are head-normalized; constructors are fully normalized.
 void normalize(heap_ptr p)
 {
-  #define DEREF(p, x) (p)->(x)
-  #define ASSIGN_PTR(l, r) l = (r);
-  auto obj = DEREF(p.h, obj);
-  auto repl = obj->info->step(obj);
-  ASSIGN_PTR(DEREF(p.h, obj), repl);
+  //#define DEREF(p, x) (p)->(x)
+  //#define ASSIGN_PTR(l, r) l = (r);
+  //auto obj = DEREF(p.h, obj);
+  auto obj = (p.h)->obj;
+  auto rep1 = obj->info->step(obj);
+  //ASSIGN_PTR(DEREF(p.h, obj), repl);
+  (p.h)->obj = rep1;
 }
 
 template<typename T>
