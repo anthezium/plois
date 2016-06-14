@@ -1,3 +1,4 @@
+#include "curry.hpp"
 #include <urcu-pointer.h>
 
 void normalize(heap_ptr p)
