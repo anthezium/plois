@@ -29,12 +29,14 @@
 
 struct heap_obj;
 
+enum NodeKind { OPER, CTOR };
 //! \brief Contains information about each type of the Curry program.
 //! Exactly one static table is created for each type.
 struct info_table
 {
   using stepfun_t = std::function<heap_obj const *(heap_obj const *)>;
 
+  NodeKind kind;        //! The node kind.
   char const * label;   //! The node label, e.g., [], :, map, or zip
   size_t const arity;   //! The number of successors.
   stepfun_t const step; //! The step function
@@ -63,10 +65,15 @@ struct heap_obj
   heap_ptr edges[];        //! Length is given by info->arity.
 };
 
+//! \brief Performs one step at the given node.
+void call_step(heap_ptr p);
 
-//! \brief Normalizes the held heap object.
-//! Functions are head-normalized; constructors are fully normalized.
+//! \brief Head-normalizes the held heap object.
+void head_normalize(heap_ptr p);
+
+//! \brief Fully normalizes a heap object.
 void normalize(heap_ptr p);
+void normalize(heap_obj const * obj);
 
 template<typename T>
 T data(heap_obj const * obj)
